@@ -44,7 +44,8 @@ add_executable(WakuWaku WIN32
     "src/MinimalApp.cpp"
     "src/MinimalClient.h"
     "src/MinimalClient.cpp"
-)
+    "src/handlers/LifeSpanHandler.h" 
+    "src/handlers/LifeSpanHandler.cpp")
 
 
 target_link_libraries(WakuWaku

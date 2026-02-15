@@ -4,6 +4,7 @@
 #include "include/cef_life_span_handler.h"
 #include "include/cef_load_handler.h"
 #include "include/cef_display_handler.h"
+#include "handlers/LifeSpanHandler.h"
 
 // ============================================================================
 // MinimalClient - Browser-Level CEF Handler
@@ -56,7 +57,7 @@
 
 class MinimalClient : public CefClient {
 public:
-	MinimalClient() = default;
+	MinimalClient();
 	virtual ~MinimalClient() = default;
 
 	// ------------------------------------------------------------------------
@@ -116,4 +117,7 @@ public:
 
 	MinimalClient(const MinimalClient&) = delete;
 	MinimalClient& operator=(const MinimalClient&) = delete;
+
+private:
+	CefRefPtr<LifeSpanHandler> life_span_handler_; // only exists in this obj
 };

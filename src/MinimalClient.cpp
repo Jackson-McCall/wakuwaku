@@ -19,6 +19,14 @@
 //
 // ============================================================================
 
+MinimalClient::MinimalClient() {
+	// HEAP vs. STACK
+	// LifeSpanHandler handler; - Dies when out of scope
+	// LifeSpanHandler* handler = new LifeSpanHandler() - We must delete this
+	// CefRefPtr<LifeSpanHandler> handler(new LifeSpanHandler()) - CefRefPtr deletes automatically
+	life_span_handler_ = new LifeSpanHandler();
+}
+
 CefRefPtr<CefLifeSpanHandler> MinimalClient::GetLifeSpanHandler() {
 	// LifeSpanHandler handles browser lifecycle events
 	//
@@ -33,7 +41,7 @@ CefRefPtr<CefLifeSpanHandler> MinimalClient::GetLifeSpanHandler() {
 	// - Track when browsers are created/destroyed
 	// - Perform cleanup when browser closes
 
-	return nullptr; // We don't handle lifetime events yet
+	return life_span_handler_;
 }
 
 CefRefPtr<CefLoadHandler> MinimalClient::GetLoadHandler() {

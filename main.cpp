@@ -62,7 +62,6 @@ int main(int argc, char* argv[]) {
 	// Configure CEF settings
 	CefSettings settings;
 	settings.no_sandbox = 1;
-	CefString(&settings.root_cache_path).FromASCII("cache"); // Set cache path
 
 
 	// Initialize CEF
@@ -94,21 +93,29 @@ int main(int argc, char* argv[]) {
 
 	// Configure browser settings
 	CefBrowserSettings browser_settings;
-	browser_settings.size = sizeof(CefBrowserSettings);
 
 	// Create client handler
 	CefRefPtr<CefClient> client(new MinimalClient());
 
+	std::string url = "https://seekingalpha.com/news/4551932-wall-street-observes-limited-movement-after-the-latest-cpi-report";
 	// Create browser instance
-	CefRefPtr<CefBrowser> browser = CefBrowserHost::CreateBrowserSync(
+	// Using CreateBrowser (async) because otherwise it tries to create a
+	// browser before the helper processes are ready
+	bool browser_created = CefBrowserHost::CreateBrowser(
 		window_info,
 		client.get(),
-		"https://google.com",
+		url,
 		browser_settings,
 		nullptr,
 		nullptr
 	);
 
+	if (!browser_created) {
+		MessageBoxA(NULL, "Failed to initiate browser creation!", "Error", MB_OK);
+		return 1;
+	}
+	
+	 
 	// Run message loop (blocks until window closes)
 	CefRunMessageLoop();
 
