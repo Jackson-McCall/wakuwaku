@@ -4,6 +4,8 @@
 
 # Setting environment rules
 cmake_minimum_required (VERSION 3.20)
+#Setting CMAKE Toolchain file for vcpkg integration
+set(CMAKE_TOOLCHAIN_FILE "C:/Users/jacks/vcpkg/scripts/buildsystems/vcpkg.cmake")
 # Enable Hot Reload for MSVC compilers if supported.
 if (POLICY CMP0141)
   cmake_policy(SET CMP0141 NEW)
@@ -33,6 +35,11 @@ find_package(CEF REQUIRED)
 include_directories(${CEF_ROOT}) # This tells the compiler where to find CEF headers
 add_subdirectory(${CEF_ROOT}/libcef_dll libcef_dll_wrapper) # build CEF's wrapper library
 
+# =================================
+# Curl Setup
+# =================================
+
+find_package(CURL REQUIRED)
 
 # =============================================================================
 # Building Executable
@@ -48,7 +55,12 @@ add_executable(WakuWaku #WIN32
     "src/handlers/LifeSpanHandler.h" 
     "src/handlers/LifeSpanHandler.cpp" 
     "src/handlers/LoadHandler.h" 
-    "src/handlers/LoadHandler.cpp")
+    "src/handlers/LoadHandler.cpp" 
+    "src/ScrapedData.h" 
+    "src/HTTPClient.h" 
+    "src/HTTPClient.cpp" 
+    "src/handlers/TextVisitor.h" 
+    "src/handlers/TextVisitor.cpp" "src/JSBridge.h")
 
 
 target_link_libraries(WakuWaku
@@ -56,6 +68,7 @@ target_link_libraries(WakuWaku
         libcef_dll_wrapper # CEF's C++ wrapper (we compiled this)
         ${CEF_STANDARD_LIBS} # CEF's platform-specific libs
         "${CEF_ROOT}/Release/libcef.lib" # Make sure that the lib is included
+        CURL::libcurl
 )
 
 # =============================================================================

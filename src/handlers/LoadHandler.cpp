@@ -1,21 +1,9 @@
 #include "LoadHandler.h"
 #include "include/cef_app.h"
+#include "TextVisitor.h"
 #include <iostream>
 #include <thread>
 #include <chrono>
-
-// Add this class at the TOP of LoadHandler.cpp, before any functions
-class TextVisitor : public CefStringVisitor {
-public:
-	void Visit(const CefString& string) override {
-		std::cout << "\n=== SCRAPED DATA ===\n" << std::endl;
-		std::cout << string.ToString() << std::endl;
-		std::cout << "\n====================\n" << std::endl;
-		CefQuitMessageLoop();
-	}
-	IMPLEMENT_REFCOUNTING(TextVisitor);
-};
-
 
 // Called when page starts loading
 void LoadHandler::OnLoadStart(CefRefPtr<CefBrowser> browser,
@@ -76,14 +64,8 @@ void LoadHandler::OnLoadEnd(CefRefPtr<CefBrowser> browser,
 	std::cout << "Extracting article data..." << std::endl;
 
 	// Wait a moment for the JS to run, then get results
-	std::this_thread::sleep_for(std::chrono::seconds(2));
-
+	std::this_thread::sleep_for(std::chrono::milliseconds(500));
 	frame->GetText(new TextVisitor());
-
-
-	// For now, quit after this page loads (we'll remove this later)
-	//CefQuitMessageLoop();
-
 }
 
 // Called if page fails to load
