@@ -32,6 +32,7 @@
 // Windows GUI applications have a special entry point: APIENTRY...
 // While linux/console applications use standard C main.
 // Preprocessor executes the ifdef and chooses the header for main()
+/*
 #ifdef _WIN32
 int APIENTRY wWinMain(
 	HINSTANCE hInstance,  // Handle to current program instance
@@ -41,9 +42,12 @@ int APIENTRY wWinMain(
 {
 	int argc = __argc;
 	char** argv = __argv;
-	CefMainArgs main_args(hInstance); // Wrap command-line arguments
 #else
+*/
 int main(int argc, char* argv[]) {
+#ifdef _WIN32
+	CefMainArgs main_args(GetModuleHandle(nullptr)); // Wrap command-line arguments
+#else
 	CefMainArgs main_args(argc, argv);
 #endif
 

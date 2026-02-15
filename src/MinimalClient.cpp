@@ -25,6 +25,7 @@ MinimalClient::MinimalClient() {
 	// LifeSpanHandler* handler = new LifeSpanHandler() - We must delete this
 	// CefRefPtr<LifeSpanHandler> handler(new LifeSpanHandler()) - CefRefPtr deletes automatically
 	life_span_handler_ = new LifeSpanHandler();
+	load_handler_ = new LoadHandler();
 }
 
 CefRefPtr<CefLifeSpanHandler> MinimalClient::GetLifeSpanHandler() {
@@ -63,7 +64,7 @@ CefRefPtr<CefLoadHandler> MinimalClient::GetLoadHandler() {
 	// 3. Return the LoadHandler here
 	// 4. In OnLoadEnd, execute JavaScript to scrape
 
-	return nullptr; // TODO: Return LoadHandler once we create it
+	return load_handler_;
 }
 
 CefRefPtr<CefDisplayHandler> MinimalClient::GetDisplayHandler() {

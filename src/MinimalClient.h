@@ -5,6 +5,7 @@
 #include "include/cef_load_handler.h"
 #include "include/cef_display_handler.h"
 #include "handlers/LifeSpanHandler.h"
+#include "handlers/LoadHandler.h"
 
 // ============================================================================
 // MinimalClient - Browser-Level CEF Handler
@@ -119,5 +120,6 @@ public:
 	MinimalClient& operator=(const MinimalClient&) = delete;
 
 private:
-	CefRefPtr<LifeSpanHandler> life_span_handler_; // only exists in this obj
+	CefRefPtr<LifeSpanHandler> life_span_handler_;
+	CefRefPtr<LoadHandler> load_handler_;
 };

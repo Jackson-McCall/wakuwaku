@@ -38,14 +38,17 @@ add_subdirectory(${CEF_ROOT}/libcef_dll libcef_dll_wrapper) # build CEF's wrappe
 # Building Executable
 # =============================================================================
 
-add_executable(WakuWaku WIN32
+# Un-comment out the WIN32 line to make it run without console!
+add_executable(WakuWaku #WIN32
     "main.cpp"
     "src/MinimalApp.h" 
     "src/MinimalApp.cpp"
     "src/MinimalClient.h"
     "src/MinimalClient.cpp"
     "src/handlers/LifeSpanHandler.h" 
-    "src/handlers/LifeSpanHandler.cpp")
+    "src/handlers/LifeSpanHandler.cpp" 
+    "src/handlers/LoadHandler.h" 
+    "src/handlers/LoadHandler.cpp")
 
 
 target_link_libraries(WakuWaku
